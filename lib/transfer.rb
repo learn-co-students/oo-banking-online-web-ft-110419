@@ -15,18 +15,20 @@ class Transfer
     self.sender.valid? && self.receiver.valid?
   end
 
-  def sender_has_enough_funds?
-    self.sender.balance >= self.amount
+  def has_enough_funds?(person)
+    # binding.pry
+    person.balance >= self.amount
   end
 
   def execute_transaction
     # binding.pry
     if self.status != "complete"
-      if self.sender_has_enough_funds?
+      if self.valid? && self.has_enough_funds?(self.sender) && self.has_enough_funds?(self.receiver)
         self.sender.withdraw(self.amount)
         self.receiver.deposit(self.amount)
         self.status = "complete"
       else
+
         self.status = "rejected"
         "Transaction rejected. Please check your account balance."
       end
