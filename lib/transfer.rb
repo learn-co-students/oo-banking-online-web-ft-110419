@@ -1,5 +1,3 @@
-require 'pry'
-
 class Transfer
   attr_reader :sender, :receiver, :amount
   attr_accessor :status
@@ -16,12 +14,10 @@ class Transfer
   end
 
   def has_enough_funds?(person)
-    # binding.pry
     person.balance >= self.amount
   end
 
   def execute_transaction
-    # binding.pry
     if self.status != "complete"
       if self.valid? && self.has_enough_funds?(self.sender) && self.has_enough_funds?(self.receiver)
         self.sender.withdraw(self.amount)
